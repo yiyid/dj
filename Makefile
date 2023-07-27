@@ -1,4 +1,4 @@
-BINARY_NAME := deploy-jenkins
+BINARY_NAME := dj
 
 # 设置默认目标
 all: build
