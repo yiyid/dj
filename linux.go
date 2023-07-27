@@ -67,7 +67,7 @@ func LinuxInstall() {
 	utils.Exec("rm -rf /usr/local/tomcat/webapps/*")
 	utils.Exec("cp jenkins.war /usr/local/tomcat/webapps/")
 	utils.Exec("chmod +x /usr/local/tomcat/bin/*")
-	utils.Exec("/usr/local/tomcat/bin/startup.sh")
+	fmt.Println("手动启动 jenkins 项目: source /etc/profile && /usr/local/tomcat/bin/startup.sh")
 
 }
 
