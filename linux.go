@@ -41,7 +41,8 @@ func LinuxInstall() {
 	fmt.Println("开始安装jdk...")
 	jdk_gz := path.Base(urls[0])
 	jdk_dir := strings.Split(jdk_gz, ".tar.gz")[0]
-	utils.Exec(fmt.Sprintf("tar xvf %s -C /usr/local/", jdk_gz))
+	fmt.Println("开始解压jdk...")
+	utils.Exec(fmt.Sprintf("tar xf %s -C /usr/local/", jdk_gz))
 	utils.Exec(fmt.Sprintf("mv /usr/local/%s /usr/local/java", jdk_dir))
 	utils.Exec("echo 'JAVA_HOME=/usr/local/java; PATH=$JAVA_HOME/bin:$PATH; export JAVA_HOME PATH' >> /etc/profile; source /etc/profile;")
 	fmt.Println("重启shell后执行 java -verion")
@@ -49,7 +50,8 @@ func LinuxInstall() {
 	fmt.Println("开始安装tomcat...")
 	tomcat_gz := path.Base(urls[1])
 	tomcat_dir := strings.Split(tomcat_gz, ".tar.gz")[0]
-	utils.Exec(fmt.Sprintf("tar xvf %s -C /usr/local/;", tomcat_gz))
+	fmt.Println("开始解压tomcat...")
+	utils.Exec(fmt.Sprintf("tar xf %s -C /usr/local/;", tomcat_gz))
 	utils.Exec(fmt.Sprintf("mv /usr/local/%s /usr/local/tomcat/", tomcat_dir))
 	utils.Exec("echo 'CATALINA_HOME=/usr/local/tomcat/; export CATALINA_HOME PATH' >> /etc/profile; source /etc/profile;")
 
