@@ -11,7 +11,7 @@ import (
 
 var urls = []string{
 	"https://repo.huaweicloud.com/java/jdk/8u151-b12/jdk-8u151-linux-x64.tar.gz",
-	"https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.78/bin/apache-tomcat-9.0.78.zip",
+	"https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-9/v9.0.76/bin/apache-tomcat-9.0.76.tar.gz",
 	"https://mirrors.jenkins.io/war-stable/2.164.1/jenkins.war",
 }
 
@@ -37,29 +37,23 @@ func LinuxDownload() {
 }
 
 func LinuxInstall() {
+
 	fmt.Println("开始安装jdk...")
-	utils.Exec("tar xvf jdk-8u151-linux-x64.tar.gz -C /usr/local/")
-	utils.Exec("mv /usr/local/jdk1.8.0_151/ /usr/local/java")
+	jdk_gz := path.Base(urls[0])
+	jdk_dir := strings.Split(jdk_gz, ".tar.gz")[0]
+	utils.Exec(fmt.Sprintf("tar xvf %s -C /usr/local/", jdk_gz))
+	utils.Exec(fmt.Sprintf("mv /usr/local/%s /usr/local/java", jdk_dir))
 	utils.Exec("echo 'JAVA_HOME=/usr/local/java; PATH=$JAVA_HOME/bin:$PATH; export JAVA_HOME PATH' >> /etc/profile; source /etc/profile;")
 	fmt.Println("重启shell后执行 java -verion")
+
 	fmt.Println("开始安装tomcat...")
-	tomcat_zip := path.Base(urls[1])
-	tomcat_dir := strings.Split(tomcat_zip, ".zip")[0]
-	err := utils.Exec("yum install unzip -y")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	err = utils.Exec(fmt.Sprintf("unzip %s; mv %s /usr/local/tomcat/", tomcat_zip, tomcat_dir))
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	tomcat_gz := path.Base(urls[1])
+	tomcat_dir := strings.Split(tomcat_gz, ".tar.gz")[0]
+	utils.Exec(fmt.Sprintf("tar xvf %s -C /usr/local/;", tomcat_gz))
+	utils.Exec(fmt.Sprintf("mv /usr/local/%s /usr/local/tomcat/", tomcat_dir))
 	utils.Exec("echo 'CATALINA_HOME=/usr/local/tomcat/; export CATALINA_HOME PATH' >> /etc/profile; source /etc/profile;")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+
+	fmt.Println("开始安装jenkins...")
 	utils.Exec("rm -rf /usr/local/tomcat/webapps/*")
 	utils.Exec("cp jenkins.war /usr/local/tomcat/webapps/")
 	utils.Exec("chmod +x /usr/local/tomcat/bin/*")
