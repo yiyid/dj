@@ -42,7 +42,7 @@ func LinuxInstall() {
 	jdk_gz := path.Base(urls[0])
 	jdk_dir := strings.Split(jdk_gz, ".tar.gz")[0]
 	fmt.Println("开始解压jdk...")
-	utils.Exec(fmt.Sprintf("tar xf %s -C /usr/local/", jdk_gz))
+	utils.Exec(fmt.Sprintf("tar xvf %s -C /usr/local/", jdk_gz))
 	utils.Exec(fmt.Sprintf("mv /usr/local/%s /usr/local/java", jdk_dir))
 	utils.Exec("echo 'JAVA_HOME=/usr/local/java; PATH=$JAVA_HOME/bin:$PATH; export JAVA_HOME PATH' >> /etc/profile; source /etc/profile;")
 	fmt.Println("重启shell后执行 java -verion")
