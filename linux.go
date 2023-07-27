@@ -60,8 +60,8 @@ func LinuxInstall() {
 	fmt.Println("开始安装tomcat...")
 	fmt.Println("开始解压tomcat...")
 	utils.Exec(fmt.Sprintf("tar xf %s -C /usr/local/;", tomcat_gz))
-	utils.Exec(fmt.Sprintf("mv /usr/local/%s /usr/local/tomcat/", tomcat_dir))
-	utils.Exec("echo 'CATALINA_HOME=/usr/local/tomcat/; export CATALINA_HOME PATH' >> /etc/profile; source /etc/profile;")
+	utils.Exec(fmt.Sprintf("mv /usr/local/%s /usr/local/tomcat", tomcat_dir))
+	utils.Exec("echo 'CATALINA_HOME=/usr/local/tomcat; export CATALINA_HOME PATH' >> /etc/profile; source /etc/profile;")
 
 	fmt.Println("开始安装jenkins...")
 	utils.Exec("rm -rf /usr/local/tomcat/webapps/*")
