@@ -9,11 +9,24 @@ import (
 	"github.com/yiyid/dj/utils"
 )
 
+/*
+若更改版本需要修改此处URL
+*/
 var urls = []string{
 	"https://repo.huaweicloud.com/java/jdk/8u151-b12/jdk-8u151-linux-x64.tar.gz",
 	"https://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-9/v9.0.76/bin/apache-tomcat-9.0.76.tar.gz",
 	"https://mirrors.jenkins.io/war-stable/2.164.1/jenkins.war",
 }
+
+/*
+若更改版本需要修改此处变量 jdk_dir 的值
+*/
+var (
+	jdk_gz     = path.Base(urls[0])
+	jdk_dir    = "jdk1.8.0_151"
+	tomcat_gz  = path.Base(urls[1])
+	tomcat_dir = strings.Split(tomcat_gz, ".tar.gz")[0]
+)
 
 func LinuxDownload() {
 
@@ -39,8 +52,6 @@ func LinuxDownload() {
 func LinuxInstall() {
 
 	fmt.Println("开始安装jdk...")
-	jdk_gz := path.Base(urls[0])
-	jdk_dir := strings.Split(jdk_gz, ".tar.gz")[0]
 	fmt.Println("开始解压jdk...")
 	utils.Exec(fmt.Sprintf("tar xvf %s -C /usr/local/", jdk_gz))
 	utils.Exec(fmt.Sprintf("mv /usr/local/%s /usr/local/java", jdk_dir))
@@ -48,8 +59,6 @@ func LinuxInstall() {
 	fmt.Println("重启shell后执行 java -verion")
 
 	fmt.Println("开始安装tomcat...")
-	tomcat_gz := path.Base(urls[1])
-	tomcat_dir := strings.Split(tomcat_gz, ".tar.gz")[0]
 	fmt.Println("开始解压tomcat...")
 	utils.Exec(fmt.Sprintf("tar xf %s -C /usr/local/;", tomcat_gz))
 	utils.Exec(fmt.Sprintf("mv /usr/local/%s /usr/local/tomcat/", tomcat_dir))
